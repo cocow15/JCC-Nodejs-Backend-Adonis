@@ -96,7 +96,11 @@ function balikKata(kata){
         return "Kata Kosong";
     }
     for(i=kata.length-1; i >= 0; i--){
-        process.stdout.write(kata[i]);
+        if(kata[i]===','){
+            process.stdout.write(" ");
+        }else{
+            process.stdout.write(kata[i]);
+        }
     }
 }
 
