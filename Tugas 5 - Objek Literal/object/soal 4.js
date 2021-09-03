@@ -9,18 +9,16 @@ function found(data, inputan){
 }
 
 function nilaiTertinggi(siswa) {
-    if(siswa.length === 0){
-        return siswa;
-    }
     let tempKey = [];
     let tempName = [];
-    let tempScore = [0, 0 ,0];
+    let tempScore = [];
     let i, j;
     for(i=0; i<siswa.length; i++){
         if(found(tempKey, siswa[i].class)){
 
         }else{
             tempKey.push(siswa[i].class);
+            tempScore.push(0);
         }
     }
     for(i=0; i<tempKey.length; i++){
@@ -35,9 +33,9 @@ function nilaiTertinggi(siswa) {
     }
     
     console.log("{");
-    console.log(`   ${tempKey[0]}: { name: '${tempName[0]}', score: ${tempScore[0]} }`);
-    console.log(`   ${tempKey[1]}: { name: '${tempName[1]}', score: ${tempScore[1]} }`);
-    console.log(`   ${tempKey[2]}: { name: '${tempName[2]}', score: ${tempScore[2]} }`);
+    for(i=0; i<tempKey.length; i++){
+      console.log(`   ${tempKey[i]}: { name: '${tempName[i]}', score: ${tempScore[i]} }`);
+    }
     console.log("}");
 }
   
