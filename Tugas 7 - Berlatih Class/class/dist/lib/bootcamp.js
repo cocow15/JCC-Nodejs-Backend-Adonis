@@ -42,7 +42,7 @@ var bootcamp = /*#__PURE__*/function () {
   }, {
     key: "createClass",
     value: function createClass(name, level, instructor) {
-      var students = []; //this._classes.push({name, students, level, instructor});
+      var students = [];
 
       this._classes.push(new _kelas["default"](name, students, level, instructor));
     }
@@ -68,7 +68,6 @@ var bootcamp = /*#__PURE__*/function () {
         return this._classes;
       }
 
-      var result = [];
       var i, j, k;
 
       for (i = 0; i < this._classes.length; i++) {
@@ -80,8 +79,6 @@ var bootcamp = /*#__PURE__*/function () {
           this._classes[i].students[j]._finalScore = (this._classes[i].students[j]._scores[0] + this._classes[i].students[j]._scores[1] + this._classes[i].students[j]._scores[2] + this._classes[i].students[j]._scores[3]) / 4;
         }
       }
-
-      this.classes;
 
       for (i = 0; i < this._classes.length; i++) {
         console.log("graduated from ".concat(this._classes[i].name, ":"));

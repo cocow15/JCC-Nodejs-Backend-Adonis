@@ -23,7 +23,6 @@ export default class bootcamp {
 
     createClass(name, level, instructor){
         let students = [];
-        //this._classes.push({name, students, level, instructor});
         this._classes.push(new Kelas (name, students, level, instructor));
     }
     
@@ -43,7 +42,6 @@ export default class bootcamp {
         if(this._classes.length == 0 ){
             return this._classes;
         }
-        let result = []
         let i, j, k;
         for(i=0; i<this._classes.length; i++){
             for(j=0; j<this._classes[i].students.length; j++){
@@ -53,7 +51,6 @@ export default class bootcamp {
                 this._classes[i].students[j]._finalScore = (this._classes[i].students[j]._scores[0] + this._classes[i].students[j]._scores[1] + this._classes[i].students[j]._scores[2] + this._classes[i].students[j]._scores[3])/4;
             }
         }
-        this.classes
         for(i=0; i<this._classes.length; i++){
             console.log(`graduated from ${this._classes[i].name}:`);
             console.log(this._classes[i].graduate());
