@@ -25,11 +25,11 @@ export default class CreateContactValidator {
 	 *    ```
 	 */
   public schema = schema.create({
-	nama: schema.string({},[
+	name: schema.string({},[
 		rules.alpha(),
 		rules.minLength(4),
 	]),
-	alamat: schema.string({},[
+	address: schema.string({},[
 		rules.alpha(),
 		rules.minLength(5),
 	]),
@@ -51,7 +51,7 @@ export default class CreateContactValidator {
 	 */
   public messages = {
 	  'required': 'the {{field}} is required to create new venues',
-	  'nama.alpha': 'the {{field}} must be characters without number and symbols',
+	  'name.alpha': 'the {{field}} must be characters without number and symbols',
 	  'phone.mobile': 'phone is invalid'
   }
 }

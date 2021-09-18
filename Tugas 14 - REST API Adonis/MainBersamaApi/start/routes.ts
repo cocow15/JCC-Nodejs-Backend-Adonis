@@ -25,6 +25,12 @@ Route.get('/', async () => {
   return { hello: 'world' }
 }).as("home")
 
-Route.get('/testing/:b', 'ContactsController.index').as('testing')
-Route.post('/venues', 'ContactsController.store').as('contacts.store')
-Route.post('/bookings', 'ContactsController.booking').as('contacts.booking')
+// Route.get('/venues', 'ContactsController.index').as('venues.index')
+// Route.post('/venues', 'ContactsController.store').as('venues.store')
+// Route.get('/venues/:id', 'ContactsController.show').as('venues.show')
+// Route.put('/venues/:id', 'ContactsController.update').as('venues.update')
+// Route.delete('/venues/:id', 'ContactsController.destroy').as('venues.destroy')
+Route.resource('venues', 'ContactsController').apiOnly()
+Route.resource('venues.fields', 'PostsController').apiOnly()
+
+//Route.post('/bookings', 'ContactsController.booking').as('contacts.booking')
