@@ -1,7 +1,7 @@
-import { schema, rules} from '@ioc:Adonis/Core/Validator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class CreateGenreValidator {
+export default class CreateMovieValidator {
   constructor (protected ctx: HttpContextContract) {
   }
 
@@ -25,11 +25,17 @@ export default class CreateGenreValidator {
 	 *    ```
 	 */
 	public schema = schema.create({
-		name: schema.string({},[
-			rules.alpha(),
-			rules.minLength(1)
-		])
+		title: schema.string({},[
+			rules.minLength(2)
+		]),
+		resume: schema.string({},[
+			rules.minLength(5)
+		]),
+		release_date: schema.date({
+			format: 'dd-MM-yyyy'
+		})
 	})
+
 	/**
 	 * Custom messages for validation failures. You can make use of dot notation `(.)`
 	 * for targeting nested fields and array expressions `(*)` for targeting all
@@ -42,7 +48,7 @@ export default class CreateGenreValidator {
 	 *
 	 */
 	public messages = {	  
-		'required': 'the {{field}} is required to create new genres',
-		'name.alpha': 'the {{field}} must be characters without number and symbols'
+		'required': 'the {{field}} is required to create new movies',
+		'release_date' : 'format tanggal salah'
 	}
 }
