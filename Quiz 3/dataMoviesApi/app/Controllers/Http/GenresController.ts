@@ -5,13 +5,13 @@ import CreateGenreValidator from 'App/Validators/CreateGenreValidator'
 import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class GenresController {
-    public async index({request, response}: HttpContextContract){
-        if(request.qs()){
-            let name = request.qs().name
-            let genresFiltered = await Database.from('genres').where('name', name).select('id', 'name')
-            return response.status(200).json({message: 'success get contacts', data: genresFiltered })
-        }
-        let genres = await Database.from('genres').select('*')
+    public async index({response}: HttpContextContract){
+        // if(request.qs()){
+        //     let name = request.qs().name
+        //     let genresFiltered = await Database.from('genres').where('name', name).select('id', 'name')
+        //     return response.status(200).json({message: 'success get contacts', data: genresFiltered })
+        // }
+        let genres = await Database.from('genres').select('id', 'name')
         return response.status(200).json({message: 'success get contacts', data: genres })
     }
 
@@ -29,6 +29,8 @@ export default class GenresController {
 
     public async show({params, response}: HttpContextContract){
         let genre = await Database.from('genres').where('id', params.id).select('id', 'name').firstOrFail()
+        let moviesFiltered = await Database.from('movies').where('genres_id', genre.id).select('id', 'title', 'resume', 'release_date', 'genres_id')
+        genre["movies"] = moviesFiltered
         return response.status(200).json({message: 'success get genre with id', data: genre})
     }
 
