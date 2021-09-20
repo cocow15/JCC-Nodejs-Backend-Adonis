@@ -2,29 +2,44 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 //import { schema, rules } from '@ioc:Adonis/Core/Validator';
 //import { HttpContext } from "@adonisjs/http-server/build/standalone";
 import CreateContactValidator from 'App/Validators/CreateContactValidator'
-import Database from '@ioc:Adonis/Lucid/Database'
+//import Database from '@ioc:Adonis/Lucid/Database'
 
+//Models
+import Venue from 'App/Models/Venue';
 
 export default class ContactsController {
     public async index({request, response}: HttpContextContract){
-        if(request.qs()){
+        if(request.qs().name){
             let name = request.qs().name
-            let venuesFiltered = await Database.from('venues').where('name', name).select('id', 'name', 'address', 'phone')
-            return response.status(200).json({message: 'success get contacts', data: venuesFiltered })
+            //Query Builder
+            // let venuesFiltered = await Database.from('venues').where('name', name).select('id', 'name', 'address', 'phone')
+            let venuesFiltered = await Venue.findBy("name", name)
+            return response.status(200).json({message: 'success get venues', data: venuesFiltered })
         }
-        let venues = await Database.from('venues').select('*')
-        return response.status(200).json({message: 'success get contacts', data: venues })
+        // let venues = await Database.from('venues').select('*')
+        let venues = await Venue.all()
+        return response.status(200).json({message: 'success get venues', data: venues })
     }
 
     public async store({request, response}: HttpContextContract){
         try {
             await request.validate(CreateContactValidator) 
-            let newVenueId = await Database.table('venues').returning('id').insert({
-                name: request.input('name'),
-                address: request.input('address'),
-                phone: request.input('phone')
-            })
-            response.created({message: 'created', newId: newVenueId})
+            // Quoy builder
+            // let newVenueId = await Database.table('venues').returning('id').insert({
+            //     name: request.input('name'),
+            //     address: request.input('address'),
+            //     phone: request.input('phone')
+            // })
+            // response.created({message: 'created', newId: newVenueId})
+            
+            //Lucid Orm
+            let newVenue = new Venue();
+            newVenue.name = request.input('name')
+            newVenue.address = request.input('address')
+            newVenue.phone = request.input('phone')
+
+            await newVenue.save()
+            response.created({message: 'created'})
         } catch (error) {
             response.unprocessableEntity({error: error.messages})
         }
@@ -39,23 +54,36 @@ export default class ContactsController {
     // }
 
     public async show({params, response}: HttpContextContract){
-        let venue = await Database.from('venues').where('id', params.id).select('id', 'name', 'address', 'phone').firstOrFail()
+        // Query Builder
+        // let venue = await Database.from('venues').where('id', params.id).select('id', 'name', 'address', 'phone').firstOrFail()
+        let venue = await Venue.find(params.id)
         return response.status(200).json({message: 'success get venues with id', data: venue})
     }
 
     public async update({request, response, params}: HttpContextContract){
         let id = params.id
-        await Database.from('venues').where('id', id).update({
-            name: request.input('name'),
-            address: request.input('address'),
-            phone: request.input('phone')
-        })
+        // DB Builder
+        // await Database.from('venues').where('id', id).update({
+        //     name: request.input('name'),
+        //     address: request.input('address'),
+        //     phone: request.input('phone')
+        // })
+
+        //Model Orm
+        let NewVenue = await Venue.findOrFail(id)
+        NewVenue.name = request.input('name')
+        NewVenue.address = request.input('address')
+        NewVenue.phone = request.input('phone')
+
+        NewVenue.save()
         return response.status(200).json({message: 'updated'})
     }
 
     public async destroy({response, params}: HttpContextContract){
         let id = params.id
-        await Database.from('venues').where('id', id).delete()
+        // await Database.from('venues').where('id', id).delete()
+        let venue = await Venue.findOrFail(id)
+        await venue.delete()
         return response.ok({message: 'deleted'})
     }
 }

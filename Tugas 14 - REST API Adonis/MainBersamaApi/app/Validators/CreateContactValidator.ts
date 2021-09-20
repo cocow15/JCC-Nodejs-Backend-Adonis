@@ -24,19 +24,19 @@ export default class CreateContactValidator {
 	 *     ])
 	 *    ```
 	 */
-  public schema = schema.create({
-	name: schema.string({},[
-		rules.alpha(),
-		rules.minLength(4),
-	]),
-	address: schema.string({},[
-		rules.alpha(),
-		rules.minLength(5),
-	]),
-	phone: schema.string({}, [
-		rules.mobile()
-	])
-})
+  	public schema = schema.create({
+		name: schema.string({},[
+			rules.alpha(),
+			rules.minLength(4),
+		]),
+		address: schema.string({},[
+			rules.alpha(),
+			rules.minLength(5),
+		]),
+		phone: schema.string({}, [
+			rules.mobile()
+		])
+	})
 
 	/**
 	 * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -49,9 +49,9 @@ export default class CreateContactValidator {
 	 * }
 	 *
 	 */
-  public messages = {
-	  'required': 'the {{field}} is required to create new venues',
-	  'name.alpha': 'the {{field}} must be characters without number and symbols',
-	  'phone.mobile': 'phone is invalid'
-  }
+	public messages = {
+		'required': 'the {{field}} is required to create new venues',
+		'name.alpha': 'the {{field}} must be characters without number and symbols',
+		'phone.mobile': 'phone is invalid'
+	}
 }

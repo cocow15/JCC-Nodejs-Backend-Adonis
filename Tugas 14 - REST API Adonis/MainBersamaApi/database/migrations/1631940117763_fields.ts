@@ -7,7 +7,7 @@ export default class Fields extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('name').unique().notNullable()
-      table.enum('type', ['futsal', 'mini soccer', 'basketball'])
+      table.enum('type', ['futsal', 'mini soccer', 'basketball']).defaultTo('futsal')
       table.integer('venue_id').unsigned()
       table.foreign('venue_id').references('id').inTable('venues')
       /**
@@ -21,3 +21,5 @@ export default class Fields extends BaseSchema {
     this.schema.dropTable(this.tableName)
   }
 }
+
+
