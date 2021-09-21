@@ -32,5 +32,6 @@ Route.get('/', async () => {
 // Route.delete('/venues/:id', 'ContactsController.destroy').as('venues.destroy')
 Route.resource('venues', 'ContactsController').apiOnly()
 Route.resource('venues.fields', 'PostsController').apiOnly()
-
+Route.post('/register', 'AuthController.register').as('auth.register')
+Route.post('/login', 'AuthController.login').as('auth.login')
 //Route.post('/bookings', 'ContactsController.booking').as('contacts.booking')

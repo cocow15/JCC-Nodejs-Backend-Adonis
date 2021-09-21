@@ -21,9 +21,13 @@ export default class ContactsController {
         return response.status(200).json({message: 'success get venues', data: venues })
     }
 
-    public async store({request, response}: HttpContextContract){
+    public async store({request, response, auth}: HttpContextContract){
         try {
-            await request.validate(CreateContactValidator) 
+            const data = await request.validate(CreateContactValidator) 
+            const newVenue = await Venue.create(data)
+            //auth
+            const userId = auth.user?.id
+            console.log(userId)
             // Quoy builder
             // let newVenueId = await Database.table('venues').returning('id').insert({
             //     name: request.input('name'),
@@ -33,12 +37,12 @@ export default class ContactsController {
             // response.created({message: 'created', newId: newVenueId})
             
             //Lucid Orm
-            let newVenue = new Venue();
-            newVenue.name = request.input('name')
-            newVenue.address = request.input('address')
-            newVenue.phone = request.input('phone')
+            // let newVenue = new Venue();
+            // newVenue.name = request.input('name')
+            // newVenue.address = request.input('address')
+            // newVenue.phone = request.input('phone')
+            // await newVenue.save()
 
-            await newVenue.save()
             response.created({message: 'created'})
         } catch (error) {
             response.unprocessableEntity({error: error.messages})
