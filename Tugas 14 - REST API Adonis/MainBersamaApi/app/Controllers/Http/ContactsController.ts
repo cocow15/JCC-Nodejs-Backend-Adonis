@@ -26,9 +26,11 @@ export default class ContactsController {
             const data = await request.validate(CreateContactValidator) 
             const newVenue = await Venue.create(data)
             //auth
-            const userId = auth.user?.id
-            console.log(userId)
-            // Quoy builder
+            await auth.use('api').authenticate()
+            //console.log(auth.use('api').user!)
+            const Id = auth.user?.id
+            console.log(Id)
+            // Query builder
             // let newVenueId = await Database.table('venues').returning('id').insert({
             //     name: request.input('name'),
             //     address: request.input('address'),
@@ -43,9 +45,9 @@ export default class ContactsController {
             // newVenue.phone = request.input('phone')
             // await newVenue.save()
 
-            response.created({message: 'created'})
+            response.created({message: 'venues is created', data: newVenue})
         } catch (error) {
-            response.unprocessableEntity({error: error.messages})
+            response.unprocessableEntity({message: error.message})
         }
     }
 

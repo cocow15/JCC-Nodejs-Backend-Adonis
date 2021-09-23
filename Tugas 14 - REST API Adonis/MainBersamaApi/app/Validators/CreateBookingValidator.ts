@@ -24,11 +24,15 @@ export default class CreateBookingValidator {
 	 *     ])
 	 *    ```
 	 */
-	 
 	public schema = schema.create({
 		name: schema.string({},[
-			rules.alpha(),
 			rules.minLength(4)
+		]),
+		venue: schema.string({},[
+			rules.minLength(4)
+		]),
+		tanggal: schema.date({}, [
+			rules.after(1, 'days')
 		])
 	})
 
@@ -50,7 +54,7 @@ export default class CreateBookingValidator {
 	// 	'tanggal_booking.after': 'booking is invalid, you must booking one day before!'
 	// }
 	public messages = {	  
-		'required': 'the {{field}} is required to create new venues',
-		'name.alpha': 'the {{field}} must be characters without number and symbols'
+		'required': 'the {{field}} is required to create booking',
+		'tanggal.after': 'you must booking before the day'
 	}
 }
