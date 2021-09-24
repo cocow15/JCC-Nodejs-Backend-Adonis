@@ -25,14 +25,11 @@ export default class CreateBookingValidator {
 	 *    ```
 	 */
 	public schema = schema.create({
-		name: schema.string({},[
-			rules.minLength(4)
+		play_date_start: schema.date({}, [
+		 	rules.after('today')
 		]),
-		venue: schema.string({},[
+		plat_date_end: schema.string({},[
 			rules.minLength(4)
-		]),
-		tanggal: schema.date({}, [
-			rules.after(1, 'days')
 		])
 	})
 

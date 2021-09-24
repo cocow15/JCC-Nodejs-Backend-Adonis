@@ -1,7 +1,7 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
-export default class CreateFieldsValidator {
+//NA.76cnEfDycVde_rpf4gtjiJE-YMtHvjiDCMd9bRBALz4nhh_C1VajmNnkax0g
+export default class CreateFieldValidator {
   constructor (protected ctx: HttpContextContract) {
   }
 
@@ -29,6 +29,9 @@ export default class CreateFieldsValidator {
 		name: schema.string({},[
 			rules.minLength(4)
 		])
+		// type: schema.enum(
+		// 	['futsal', 'mini soccer', 'basketball'] as const
+		// )
 	})
 
 	/**

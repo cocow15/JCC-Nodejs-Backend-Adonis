@@ -17,7 +17,7 @@ export default class ContactsController {
             return response.status(200).json({message: 'success get venues', data: venuesFiltered })
         }
         // let venues = await Database.from('venues').select('*')
-        let venues = await Venue.all()
+        let venues = await Venue.query().preload('fields')
         return response.status(200).json({message: 'success get venues', data: venues })
     }
 

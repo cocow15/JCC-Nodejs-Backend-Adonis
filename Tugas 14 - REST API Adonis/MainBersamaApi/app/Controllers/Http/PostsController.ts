@@ -1,9 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 //import Database from '@ioc:Adonis/Lucid/Database'
-import CreateFieldsValidator from 'App/Validators/CreateFieldValidator'
-
+import CreateFieldValidator from 'App/Validators/CreateFieldValidator'
+//NQ.Wvoubd80xnsrh2cpJtYOs2FcZZPz363wjgdStAWX_eGRCneUlV6QCzhpy9Yy
 //Models
 import Field from 'App/Models/Field';
+//import User from 'App/Models/User';
 
 export default class PostsController {
   public async index ({request, response}: HttpContextContract) {
@@ -14,13 +15,14 @@ export default class PostsController {
       return response.status(200).json({message: 'success get contacts', data: fieldsFiltered })
     }
     //let fields = await Database.from('fields').select('*')
-    let fields = await Field.all()
+    let fields = await Field.query().preload('venues')
     return response.status(200).json({message: 'success get contacts', data: fields })
   }
 
   public async store ({request, response, params, auth}: HttpContextContract) {
     try {
-        await request.validate(CreateFieldsValidator) 
+        await request.validate(CreateFieldValidator) 
+
         // let newFieldId = await Database.table('fields').returning('id').insert({
         //     name: request.input('name'),
         //     type: request.input('type'),
@@ -30,12 +32,13 @@ export default class PostsController {
         //const newField = await Field.create(data)
         //auth
         await auth.use('api').authenticate()
-
+        //const authUser = auth.venue
+        //await authUser?.related('fields').save(newField)
         //Lucid Orm
         let newField = new Field();
         newField.name = request.input('name')
         newField.type =  request.input('type')
-        newField.venue_id = params.venue_id
+        newField.venueId = params.venue_id
 
         await newField.save()
         response.created({message: 'created', data: newField})
@@ -62,7 +65,7 @@ export default class PostsController {
       let newField = await Field.findOrFail(id);
       newField.name = request.input('name')
       newField.type =  request.input('type')
-      newField.venue_id = params.venue_id
+      newField.venueId = params.venue_id
 
       newField.save()
       return response.status(200).json({message: 'updated'})
