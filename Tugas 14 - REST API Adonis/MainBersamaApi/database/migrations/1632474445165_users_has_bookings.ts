@@ -6,8 +6,8 @@ export default class UsersHasBookings extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.integer('users_id').unsigned().references('users.id')
-      table.integer('bookings_id').unsigned().references('bookings.id')
+      table.integer('user_id').unsigned().references('id').inTable('users')
+      table.integer('booking_id').unsigned().references('id').inTable('bookings')
     })
   }
 

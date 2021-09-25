@@ -2,8 +2,11 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 //import Database from '@ioc:Adonis/Lucid/Database'
 import CreateFieldValidator from 'App/Validators/CreateFieldValidator'
 //NQ.Wvoubd80xnsrh2cpJtYOs2FcZZPz363wjgdStAWX_eGRCneUlV6QCzhpy9Yy
+//Ng.0imZoXF8yDPlz6o4LKEi_UXLTkv2yfNBypoH5_HwKdBTqr2pbTjgm_LX73rH
+//Nw.aovEEweE8Xw08xVqYbP8kAkSbi8HjanIFLRZNsUfyagzUW5zeeyn7xSPjmWE
 //Models
 import Field from 'App/Models/Field';
+//import Bookings from 'Database/migrations/1632474423761_bookings';
 //import User from 'App/Models/User';
 
 export default class PostsController {
@@ -49,8 +52,12 @@ export default class PostsController {
 
   public async show ({params, response}: HttpContextContract) {
       //let field = await Database.from('fields').where('id', params.id).select('id', 'name', 'type', 'venue_id').firstOrFail()
-      let field = await Field.find(params.id)
+      // let field = await Field.find(params.id)
+      const field = await Field.query().where('id', params.id).preload('Bookings', (bookingqQuery)=>{
+        bookingqQuery.select(['title', 'play_date_start', 'play_date_end'])
+      }).firstOrFail()
       return response.status(200).json({message: 'success get fields with id', data: field})
+
   }
 
   public async update ({request, response, params}: HttpContextContract) {

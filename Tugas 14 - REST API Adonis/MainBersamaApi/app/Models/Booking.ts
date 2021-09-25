@@ -5,12 +5,15 @@ import Field from 'App/Models/Field'
 export default class Booking extends BaseModel {
   @column({ isPrimary: true })
   public id: number
+  
+  @column()
+  public title: string
 
   @column()
   public play_date_start: DateTime
 
   @column()
-  public play_date_end: string
+  public play_date_end: DateTime
 
   @column()
   public userId: number
@@ -21,14 +24,17 @@ export default class Booking extends BaseModel {
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
-  @manyToMany(() => User)
-  public Users: ManyToMany<typeof User> 
+  @manyToMany(() => User,{
+    pivotTable: 'users_has_bookings'
+  })
+  public players: ManyToMany<typeof User> 
 
   @belongsTo(() => User)
   public bookingUser: BelongsTo<typeof User>
 
   @belongsTo(() => Field)
-  public fields: BelongsTo<typeof Field>
+  public field: BelongsTo<typeof Field>
+
   // @column.dateTime({ autoCreate: true, autoUpdate: true })
   // public updatedAt: DateTime
 }

@@ -40,10 +40,12 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
-  /*
-  @manyToMany(() => Booking)
+  
+  @manyToMany(() => Booking,{
+    pivotTable: 'users_has_bookings'
+  })
   public Bookings: ManyToMany<typeof Booking> 
-  */
+  
   @hasMany(() => Booking)
   public myBooking: HasMany<typeof Booking>
 } 

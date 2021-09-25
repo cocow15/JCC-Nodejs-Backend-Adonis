@@ -25,12 +25,13 @@ export default class CreateBookingValidator {
 	 *    ```
 	 */
 	public schema = schema.create({
+	    title: schema.string(),
 		play_date_start: schema.date({}, [
 		 	rules.after('today')
 		]),
-		plat_date_end: schema.string({},[
-			rules.minLength(4)
-		])
+		play_date_end: schema.date({}, [
+			rules.after('today')
+	    ])
 	})
 
 	/**
@@ -51,7 +52,7 @@ export default class CreateBookingValidator {
 	// 	'tanggal_booking.after': 'booking is invalid, you must booking one day before!'
 	// }
 	public messages = {	  
-		'required': 'the {{field}} is required to create booking',
-		'tanggal.after': 'you must booking before the day'
+		'required': 'the {{field}} is required to create booking'
+		//'play_date_start.after': 'you must booking before the day'
 	}
 }
